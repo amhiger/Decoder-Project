@@ -1,56 +1,70 @@
-// Please refrain from tampering with the setup code provided here,
-// as the index.html and test files rely on this setup to work properly.
-// Only add code (e.g., helper methods, variables, etc.) within the scope
-// of the anonymous function on line 6
+// Write your tests here!
+const expect = require("chai").expect;
+const {caesar} = require("../src/caesar.js");
 
-const caesarModule = (function () {
-  // you can add any code you want within this function scope
-const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
-   function caesar(input, shift, encode = true) 
-  {
-    if (!shift || shift == 0 || shift>25 || shift<-25)
-      {
-        return false;
-      }
-    if (encode === false) 
-    { 
-      shift = shift * (-1); 
-    };
-    input = input.toLowerCase();
-    let encodedMessage = ""; 
-     for (let i = 0; i < input.length; i++)
-      {
-        const char = input[i]; 
-        if (!alphabet.includes(input[i]))
-          {
-            encodedMessage += input[i];
-          }
-        for(let i = 0; i < alphabet.length; i++)
-          {
-            if (char == alphabet[i])
-            {
-              if(i+shift>=26)
-                {
-                encodedMessage += alphabet[(i+shift)-26];
-                }
-              else if(i+shift<0)
-                {
-                  encodedMessage += alphabet[26+(i+shift)]
-                }
-              else
-                {
-                  encodedMessage += alphabet[i+shift];
-                }
-            }
-          }
-      } 
-    return encodedMessage;
-    
-  }
+describe("Checking if input is valid", () => {
+  it("should return false if shift input is 0", () => {
+  const actual = caesar("message", 0);
+  expect(actual).to.be.false;
+    });
+  });
 
-  return {
-    caesar,
-  };
-})();
+describe("Checking if input is valid", () => {
+  it("should return false if shift input is less than -25", () => {
+  const actual = caesar("message", -26);
+  expect(actual).to.be.false;
+    });
+  });
 
-module.exports = { caesar: caesarModule.caesar };
+describe("Checking if input is valid", () => {
+  it("should return false if shift input is greater than 25", () => {
+  const actual = caesar("message", 26);
+  expect(actual).to.be.false;
+    });
+  });
+
+describe("Checking if input is valid", () => {
+  it("should return false if shift input is not present", () => {
+  const actual = caesar("message");
+  expect(actual).to.be.false;
+    });
+  });
+
+describe("Checking if Caesar shift works properly", () => {
+  it("should return properly encoded message ignoring capital letters", () => {
+  const actual = caesar("Zebra Magazine", 3);
+  const expected = "cheud pdjdclqh"
+  expect(actual).to.eql(expected);
+    });
+  });
+
+describe("Checking if Caesar shift works properly", () => {
+  it("should return properly encoded message that handles shifts that go past the end of the alphabet.", () => {
+  const actual = caesar("Zebra Magazine", 3);
+  const expected = "cheud pdjdclqh"
+  expect(actual).to.eql(expected);
+    });
+  });
+
+describe("Checking if Caesar shift works properly", () => {
+  it("should return properly decoded/encoded message that maintains spaces and other nonalphabetic symbols.", () => {
+  const actual = caesar("Zebra Magazine!", 3);
+  const expected = "cheud pdjdclqh!"
+  expect(actual).to.eql(expected);
+    });
+  });
+
+describe("Checking if Caesar shift works properly", () => {
+  it("should return properly decoded message that maintains spaces and other nonalphabetic symbols.", () => {
+  const actual = caesar("cheud pdjdclqh!", 3, false);
+  const expected = "zebra magazine!"
+  expect(actual).to.eql(expected);
+    });
+  });
+
+
+
+
+
+
+
